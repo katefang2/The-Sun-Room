@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Sunroom – Editing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:opsz,wght@9,400;9,500;9,600;14,400;14,500;14,600&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #242331;
+      font-family: 'DM Sans', sans-serif;
+      color: #f0eef9;
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      width: 100%;
+      height: 56px;
+      background: #2f2d40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      flex-shrink: 0;
+    }
+
+    .back-btn {
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #f0eef9;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .start-btn {
+      padding: 10px 12px;
+      background: #8b7fe8;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      letter-spacing: 0.36px;
+      line-height: normal;
+    }
+
+    /* ── Three-column layout ── */
+    .columns {
+      display: flex;
+      height: calc(100vh - 56px);
+      min-height: 968px;
+    }
+
+    /* ─── Left column: Genres ─── */
+    .genres-col {
+      width: 330px;
+      flex-shrink: 0;
+      background: #1c1b22;
+      border-right: 1px solid rgba(180, 176, 200, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 22px 17px;
+      overflow-y: auto;
+    }
+
+    /* Figma: SemiBold, 16px, tracking-0.48px — indented 16px more than items */
+    .genres-heading {
+      width: 100%;
+      font-weight: 600;
+      font-size: 16px;
+      color: #f0eef9;
+      letter-spacing: 0.48px;
+      padding-left: 16px;
+      margin-bottom: 4px;
+    }
+
+    .genre-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* Figma: h-50px pl-16px pr-10px py-10px rounded-8px */
+    .genre-item {
+      width: 100%;
+      height: 50px;
+      padding: 10px 10px 10px 16px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+    }
+
+    .genre-item:hover {
+      background: rgba(139, 127, 232, 0.12);
+    }
+
+    .genre-item.active {
+      background: #8b7fe8;
+      border-radius: 12px;
+    }
+
+    /* Figma: Medium, 14px, tracking-0.36px */
+    .genre-name {
+      font-weight: 500;
+      font-size: 14px;
+      color: #f0eef9;
+      letter-spacing: 0.36px;
+    }
+
+    .genre-sub {
+      font-weight: 400;
+      font-size: 12px;
+      color: rgba(240, 238, 249, 0.7);
+    }
+
+    .genre-item.active .genre-sub {
+      color: rgba(240, 238, 249, 0.85);
+    }
+
+    .new-genre-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #b4b0c8;
+      border-radius: 8px;
+      color: #f0eef9;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      letter-spacing: 0.36px;
+      line-height: 1;
+    }
+
+    .new-genre-btn .chevron {
+      font-size: 9px;
+      opacity: 0.8;
+    }
+
+    /* Figma: flex-col gap-8px */
+    .describe-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .describe-box textarea {
+      width: 280px;
+      height: 190px;
+      min-height: 120px;
+      background: #242331;
+      border: 1px solid #b4b0c8;
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #b4b0c8;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      resize: vertical;
+      outline: none;
+    }
+
+    .describe-box textarea::placeholder {
+      color: #b4b0c8;
+    }
+
+    .save-btn {
+      align-self: flex-end;
+      padding: 8px 10px;
+      background: transparent;
+      border: 1px solid #b4b0c8;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      line-height: 1.1;
+    }
+
+    /* ─── Middle column: Authorial Intent ─── */
+    /* Figma: left-[calc(25%+25px)] → ~55px gap from left col edge */
+    .authorial-col {
+      flex: 1;
+      background: #242331;
+      padding: 25px 20px 32px 55px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+
+    /* Figma: Medium 14px title, 12px description */
+    .authorial-header h2 {
+      font-weight: 500;
+      font-size: 14px;
+      color: #f0eef9;
+      letter-spacing: 0.36px;
+      margin-bottom: 4px;
+    }
+
+    .authorial-header p {
+      font-weight: 400;
+      font-size: 12px;
+      color: #b4b0c8;
+      letter-spacing: 0.2px;
+      line-height: 1.5;
+    }
+
+    /* Wrapper for section cards — Figma gap-19px between them */
+    .cards-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 19px;
+      align-items: flex-start;
+    }
+
+    .section-card {
+      width: 673px;
+      max-width: 100%;
+      border: 1px solid #f0eef9;
+      border-radius: 12px;
+      padding: 12px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* KEY EVENTS has px-20px instead of px-16px */
+    .section-card.events-card {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .section-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Figma: SemiBold, 12px, #f0eef9, tracking-0.36px, uppercase */
+    .section-card-label {
+      font-weight: 600;
+      font-size: 12px;
+      color: #f0eef9;
+      letter-spacing: 0.36px;
+      text-transform: uppercase;
+    }
+
+    .edit-btn {
+      padding: 6px 8px;
+      background: transparent;
+      border: 1px solid #b4b0c8;
+      border-radius: 8px;
+      color: #f0eef9;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: background 0.15s;
+      line-height: 1;
+    }
+
+    .edit-btn:hover { background: rgba(240, 238, 249, 0.08); }
+
+    /* Character tag — Figma: bg #c5b9e3, border #3f267a, rounded-12px, px-10px py-8px */
+    .char-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      background: #c5b9e3;
+      border: 1px solid #3f267a;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #3f267a;
+      white-space: nowrap;
+    }
+
+    .char-desc {
+      font-size: 12px;
+      font-weight: 500;
+      color: #b4b0c8;
+      line-height: 1.1;
+      padding: 0 4px;
+    }
+
+    .add-char-btn {
+      align-self: flex-start;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #f0eef9;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* Event tags — Figma: bg rgba(255,255,255,0.9), border #1d9e75, rounded-12px, px-10px py-8px */
+    .event-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .event-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #1d9e75;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #1d9e75;
+      white-space: nowrap;
+    }
+
+    /* ── Edit mode styles ── */
+    .tag-delete {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #1d9e75;
+      font-size: 12px;
+      line-height: 1;
+      padding: 0;
+      margin-left: 2px;
+      font-weight: 700;
+    }
+
+    .events-card.editing .tag-delete {
+      display: inline;
+    }
+
+    /* DM Note textarea — hidden until Edit is clicked */
+    .dm-note-wrap {
+      display: none;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 12px 8px 12px 12px;
+      min-height: 120px;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .dm-note-wrap.open { display: block; }
+
+    .dm-note-wrap textarea {
+      width: 100%;
+      min-height: 96px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #757575;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      resize: none;
+    }
+
+    .dm-note-wrap textarea::placeholder { color: #757575; }
+
+    /* ─── Right column: Volume Setting ─── */
+    /* Figma: w-285px, left-[calc(75%+73px)], padding-left ~30px */
+    .volume-col {
+      width: 285px;
+      flex-shrink: 0;
+      background: #1c1b22;
+      border-left: 1px solid rgba(180, 176, 200, 0.12);
+      padding: 28px 20px 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    /* Figma: SemiBold, 16px, tracking-0.48px */
+    .volume-heading {
+      font-weight: 600;
+      font-size: 16px;
+      color: #f0eef9;
+      letter-spacing: 0.48px;
+    }
+
+    /* Figma: SemiBold, 12px, #8b7fe8, tracking-0.6px, uppercase */
+    .subsection-label {
+      font-weight: 600;
+      font-size: 12px;
+      color: #8b7fe8;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    /* Figma: flex-col gap-7px */
+    .lens-section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .acts-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .acts-count {
+      font-size: 12px;
+      font-weight: 400;
+      color: #b4b0c8;
+    }
+
+    /* Figma: gap-8px */
+    .acts-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .acts-btns button {
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid #b4b0c8;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      line-height: 1.1;
+    }
+
+    .act-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .act-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: #2f2d40;
+      cursor: pointer;
+    }
+
+    .act-item input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+      appearance: none;
+      border: 1px solid rgba(180, 176, 200, 0.4);
+      border-radius: 3px;
+      background: transparent;
+      position: relative;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .act-item input[type="checkbox"]:checked {
+      background: #8b7fe8;
+      border-color: #8b7fe8;
+    }
+
+    .act-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 1px;
+      width: 5px;
+      height: 8px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .act-name {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      color: #f0eef9;
+      letter-spacing: 0.36px;
+    }
+
+    /* Figma: #bdb6f5 (light purple), 10px, tracking-0.3px */
+    .act-words {
+      font-size: 10px;
+      color: #bdb6f5;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: rgba(180, 176, 200, 0.15);
+      width: 100%;
+    }
+
+    /* Volume scope — Figma: flex-col gap-8px */
+    .scope-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .estimates {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .estimate-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .estimate-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #b4b0c8;
+      letter-spacing: 0.3px;
+    }
+
+    .estimate-value {
+      font-size: 12px;
+      font-weight: 500;
+      color: #b4b0c8;
+      letter-spacing: 0.3px;
+    }
+
+    /* Epic estimate uses light purple accent */
+    .estimate-value.epic {
+      color: #bdb6f5;
+    }
+
+    /* Figma: bg #2f2d40, rounded-6px (no border) */
+    .scope-toggle {
+      display: flex;
+      background: #2f2d40;
+      border-radius: 6px;
+    }
+
+    .scope-toggle button {
+      flex: 1;
+      padding: 12px 4px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.4;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    /* Figma: bg #534ab7, border #8b7fe8, rounded-4px */
+    .scope-toggle button.active {
+      background: #534ab7;
+      border-color: #8b7fe8;
+    }
+
+    /* Figma: #bdb6f5, 10px */
+    .scope-toggle .toggle-sub {
+      font-size: 10px;
+      color: #bdb6f5;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .apply-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #b4b0c8;
+      border-radius: 8px;
+      padding: 10px 8px;
+      color: #f0eef9;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      line-height: 1;
+    }
+
+    .apply-btn:hover {
+      background: rgba(180, 176, 200, 0.06);
+    }
+
+    /* Figma: Medium 10px, #b4b0c8, center, leading-15px */
+    .scope-summary {
+      font-size: 10px;
+      font-weight: 500;
+      color: #b4b0c8;
+      text-align: center;
+      letter-spacing: 0.2px;
+      line-height: 15px;
+    }
+
+    /* "Lens are applied!" confirmation */
+    .lens-applied {
+      display: none;
+      font-size: 12px;
+      font-weight: 400;
+      color: #f0eef9;
+      text-align: center;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      letter-spacing: 0.2px;
+    }
+
+    .lens-applied.visible { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top bar ── -->
+  <div class="topbar">
+    <a class="back-btn" href="sunroom-extraction.html">Back</a>
+    <button class="start-btn" onclick="window.location.href='sunroom.html'">Start Document</button>
+  </div>
+
+  <!-- ── Three-column layout ── -->
+  <div class="columns">
+
+    <!-- ─── Genres column ─── -->
+    <aside class="genres-col">
+      <div class="genres-heading">Genres</div>
+
+      <div class="genre-list" id="genre-list">
+        <div class="genre-item active">
+          <div class="genre-name">High fantasy</div>
+          <div class="genre-sub">Epic, lyrical prose</div>
+        </div>
+        <div class="genre-item">
+          <div class="genre-name">Materialist</div>
+          <div class="genre-sub">Grounded, tactile detail</div>
+        </div>
+        <div class="genre-item">
+          <div class="genre-name">Medieval grim</div>
+          <div class="genre-sub">Dark, low-magic realism</div>
+        </div>
+        <div class="genre-item">
+          <div class="genre-name">Cyberpunk/tense, neon-edged</div>
+          <div class="genre-sub">Dark, low-magic realism</div>
+        </div>
+        <div class="genre-item">
+          <div class="genre-name">Western</div>
+          <div class="genre-sub">Sparse, frontier tone</div>
+        </div>
+      </div>
+
+      <button class="new-genre-btn">
+        + New Genre
+        <span class="chevron">▾</span>
+      </button>
+
+      <div class="describe-box">
+        <textarea placeholder="Describe your genre:"></textarea>
+        <button class="save-btn">Save</button>
+      </div>
+    </aside>
+
+    <!-- ─── Authorial Intent column ─── -->
+    <main class="authorial-col">
+      <div class="authorial-header">
+        <h2>Authorial intent</h2>
+        <p>Guide the system on tone, focus, and what matters most in this volume – this shapes how you session is formed.</p>
+      </div>
+
+      <!-- Section cards wrapper (Figma gap-19px between cards) -->
+      <div class="cards-wrapper">
+
+        <!-- CHARACTER card -->
+        <div class="section-card" id="char-card">
+          <div class="section-card-header">
+            <span class="section-card-label">Character</span>
+            <button class="edit-btn" id="char-edit-btn">Edit</button>
+          </div>
+          <div>
+            <span class="char-tag">Adrent Knight</span>
+          </div>
+          <p class="char-desc">Expeditionary knight – Iron Age – female No magic initially – gains blue essence</p>
+          <div class="dm-note-wrap" id="char-dm-note">
+            <textarea placeholder="Add DM Note:"></textarea>
+          </div>
+        </div>
+
+        <button class="add-char-btn" id="add-char-btn">Add Character</button>
+
+        <!-- KEY EVENTS card -->
+        <div class="section-card events-card" id="events-card">
+          <div class="section-card-header">
+            <span class="section-card-label">Key Events</span>
+            <button class="edit-btn" id="events-edit-btn">Edit</button>
+          </div>
+          <div class="event-tags" id="event-tags-list">
+            <span class="event-tag">Expedition Order<button class="tag-delete" aria-label="Remove">×</button></span>
+            <span class="event-tag">Chamber Discovery<button class="tag-delete" aria-label="Remove">×</button></span>
+            <span class="event-tag">World Encounter<button class="tag-delete" aria-label="Remove">×</button></span>
+          </div>
+          <div class="dm-note-wrap" id="events-dm-note">
+            <textarea placeholder="Add DM Note:"></textarea>
+          </div>
+        </div>
+
+      </div><!-- /.cards-wrapper -->
+    </main>
+
+    <!-- ─── Volume Setting column ─── -->
+    <aside class="volume-col">
+      <div class="volume-heading">Volume Setting</div>
+
+      <!-- LENS -->
+      <div class="lens-section">
+        <div class="subsection-label">Lens</div>
+        <div class="acts-row">
+          <span class="acts-count" id="acts-count">3 of 4 acts selected</span>
+          <div class="acts-btns">
+            <button id="btn-all">All</button>
+            <button id="btn-clear">Clear</button>
+          </div>
+        </div>
+        <div class="act-list">
+          <div class="act-item">
+            <input type="checkbox" id="act1" class="act-checkbox" checked />
+            <label class="act-name" for="act1">Act 1 – Village</label>
+            <span class="act-words">~500w</span>
+          </div>
+          <div class="act-item">
+            <input type="checkbox" id="act2" class="act-checkbox" checked />
+            <label class="act-name" for="act2">Act 2 – Forest &amp; hills</label>
+            <span class="act-words">~500w</span>
+          </div>
+          <div class="act-item">
+            <input type="checkbox" id="act3" class="act-checkbox" checked />
+            <label class="act-name" for="act3">Act 1 – Ancient ruin</label>
+            <span class="act-words">~500w</span>
+          </div>
+          <div class="act-item">
+            <input type="checkbox" id="act4" class="act-checkbox" />
+            <label class="act-name" for="act4">Act 1 – Return home</label>
+            <span class="act-words">~500w</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- VOLUME SCOPE -->
+      <div class="scope-section">
+        <div class="subsection-label">Volume Scope</div>
+
+        <div class="estimates">
+          <div class="estimate-row">
+            <span class="estimate-label">Draft estimate</span>
+            <span class="estimate-value">~ 1,500 words</span>
+          </div>
+          <div class="estimate-row">
+            <span class="estimate-label">Epic estimate</span>
+            <span class="estimate-value epic">~ 60,000 words</span>
+          </div>
+        </div>
+
+        <div class="scope-toggle">
+          <button class="active" id="toggle-draft">
+            Draft
+            <span class="toggle-sub">~500w per act</span>
+          </button>
+          <button id="toggle-epic">
+            Epic
+            <span class="toggle-sub">~20,000w per act</span>
+          </button>
+        </div>
+
+        <button class="apply-btn" id="apply-btn">Apply lens &amp; scope</button>
+
+        <p class="scope-summary" id="scope-summary">3 acts · Draft · ~1,500 words</p>
+        <p class="lens-applied" id="lens-applied">Lens are applied!</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // ── Draft / Epic toggle ──────────────────────────────────────────────
+    const draftBtn  = document.getElementById('toggle-draft');
+    const epicBtn   = document.getElementById('toggle-epic');
+    const summary   = document.getElementById('scope-summary');
+    let   mode      = 'Draft';   // current selection
+
+    function updateSummary() {
+      const checked = document.querySelectorAll('.act-checkbox:checked').length;
+      const wordsPerAct = mode === 'Draft' ? 500 : 20000;
+      const total = checked * wordsPerAct;
+      const totalStr = total >= 1000
+        ? `~${(total / 1000).toFixed(0)},000 words`
+        : `~${total} words`;
+      summary.textContent = `${checked} act${checked !== 1 ? 's' : ''} · ${mode} · ${totalStr}`;
+    }
+
+    draftBtn.addEventListener('click', () => {
+      mode = 'Draft';
+      draftBtn.classList.add('active');
+      epicBtn.classList.remove('active');
+      updateSummary();
+    });
+
+    epicBtn.addEventListener('click', () => {
+      mode = 'Epic';
+      epicBtn.classList.add('active');
+      draftBtn.classList.remove('active');
+      updateSummary();
+    });
+
+    // ── Checkboxes: All / Clear + live count ─────────────────────────────
+    const checkboxes  = document.querySelectorAll('.act-checkbox');
+    const actsCount   = document.getElementById('acts-count');
+
+    function updateActsCount() {
+      const total   = checkboxes.length;
+      const checked = document.querySelectorAll('.act-checkbox:checked').length;
+      actsCount.textContent = `${checked} of ${total} acts selected`;
+      updateSummary();
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', updateActsCount));
+
+    document.getElementById('btn-all').addEventListener('click', () => {
+      checkboxes.forEach(cb => { cb.checked = true; });
+      updateActsCount();
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      checkboxes.forEach(cb => { cb.checked = false; });
+      updateActsCount();
+    });
+
+    // ── Genre selection ──────────────────────────────────────────────────
+    document.getElementById('genre-list').addEventListener('click', e => {
+      const item = e.target.closest('.genre-item');
+      if (!item) return;
+      document.querySelectorAll('.genre-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active');
+    });
+
+    // ── CHARACTER edit toggle ────────────────────────────────────────────
+    const charEditBtn  = document.getElementById('char-edit-btn');
+    const charDmNote   = document.getElementById('char-dm-note');
+
+    charEditBtn.addEventListener('click', () => {
+      const isEditing = charEditBtn.textContent.trim() === 'Confirm';
+      if (isEditing) {
+        charEditBtn.textContent = 'Edit';
+        charDmNote.classList.remove('open');
+      } else {
+        charEditBtn.textContent = 'Confirm';
+        charDmNote.classList.add('open');
+        charDmNote.querySelector('textarea').focus();
+      }
+    });
+
+    // ── KEY EVENTS edit toggle ───────────────────────────────────────────
+    const eventsCard    = document.getElementById('events-card');
+    const eventsEditBtn = document.getElementById('events-edit-btn');
+    const eventsDmNote  = document.getElementById('events-dm-note');
+
+    eventsEditBtn.addEventListener('click', () => {
+      const isEditing = eventsEditBtn.textContent.trim() === 'Confirm';
+      if (isEditing) {
+        eventsEditBtn.textContent = 'Edit';
+        eventsCard.classList.remove('editing');
+        eventsDmNote.classList.remove('open');
+      } else {
+        eventsEditBtn.textContent = 'Confirm';
+        eventsCard.classList.add('editing');
+        eventsDmNote.classList.add('open');
+        eventsDmNote.querySelector('textarea').focus();
+      }
+    });
+
+    // Delete an event tag
+    document.getElementById('event-tags-list').addEventListener('click', e => {
+      const btn = e.target.closest('.tag-delete');
+      if (!btn) return;
+      btn.closest('.event-tag').remove();
+    });
+
+    // ── Add Character ────────────────────────────────────────────────────
+    document.getElementById('add-char-btn').addEventListener('click', () => {
+      const newCard = document.createElement('div');
+      newCard.className = 'section-card';
+      newCard.innerHTML = `
+        <div class="section-card-header">
+          <span class="section-card-label">Character</span>
+          <button class="edit-btn new-char-edit-btn">Edit</button>
+        </div>
+        <div>
+          <span class="char-tag">New Character</span>
+        </div>
+        <p class="char-desc">Add character description…</p>
+        <div class="dm-note-wrap">
+          <textarea placeholder="Add DM Note:"></textarea>
+        </div>`;
+
+      // Wire up edit toggle for the new card
+      const newEditBtn = newCard.querySelector('.new-char-edit-btn');
+      const newDmNote  = newCard.querySelector('.dm-note-wrap');
+      newEditBtn.addEventListener('click', () => {
+        const editing = newEditBtn.textContent.trim() === 'Confirm';
+        newEditBtn.textContent = editing ? 'Edit' : 'Confirm';
+        newDmNote.classList.toggle('open', !editing);
+        if (!editing) newDmNote.querySelector('textarea').focus();
+      });
+
+      // Insert before the "Add Character" button (inside .cards-wrapper)
+      const addBtn = document.getElementById('add-char-btn');
+      addBtn.parentNode.insertBefore(newCard, addBtn);
+    });
+
+    // ── Apply lens & scope ───────────────────────────────────────────────
+    const applyBtn    = document.getElementById('apply-btn');
+    const lensApplied = document.getElementById('lens-applied');
+
+    applyBtn.addEventListener('click', () => {
+      updateSummary();                         // make sure summary is current
+      lensApplied.classList.add('visible');
+    });
+
+    // ── Save new genre ───────────────────────────────────────────────────
+    const genreTextarea = document.querySelector('.describe-box textarea');
+    const saveGenreBtn  = document.querySelector('.save-btn');
+
+    saveGenreBtn.addEventListener('click', () => {
+      const raw = genreTextarea.value.trim();
+      if (!raw) return;
+
+      // Parse "Name / Subtitle" or "Name\nSubtitle" or just "Name"
+      let name, sub;
+      if (raw.includes('\n')) {
+        const parts = raw.split('\n');
+        name = parts[0].trim();
+        sub  = parts.slice(1).join(' ').trim();
+      } else if (raw.includes('/')) {
+        const idx = raw.indexOf('/');
+        name = raw.slice(0, idx).trim();
+        sub  = raw.slice(idx + 1).trim();
+      } else {
+        name = raw;
+        sub  = '';
+      }
+
+      // Deactivate current active genre
+      document.querySelectorAll('.genre-item').forEach(el => el.classList.remove('active'));
+
+      // Build and insert the new genre item
+      const item = document.createElement('div');
+      item.className = 'genre-item active';
+      item.innerHTML = `<div class="genre-name">${name}</div>`
+                     + (sub ? `<div class="genre-sub">${sub}</div>` : '');
+
+      // Re-use the click-to-select handler
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.genre-item').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
+      });
+
+      document.getElementById('genre-list').appendChild(item);
+      genreTextarea.value = '';
+    });
+
+    // Initialise counts on load
+    updateActsCount();
+  </script>
+
+</body>
+</html>
